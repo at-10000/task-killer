@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2")
 add_executable(task-killer src/main.cpp)
 
 set_target_properties(task-killer PROPERTIES
-    LINK_FLAGS "/subsystem:console"
+  LINK_FLAGS "/SUBSYSTEM:CONSOLE"
 )
 
 
