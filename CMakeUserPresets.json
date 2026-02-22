@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "configurePresets": [
+    {
+      "name": "default",
+      "inherits": "vcpkg",
+      "environment": {
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+        "VCPKG_ROOT": "D:/cpp/vcpkg"
+      }
+    }
+  ]
+}
+
+

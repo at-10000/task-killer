@@ -1,0 +1,3 @@
+D:/cpp/task-killer-2/build/CMakeFiles/task-killer.dir
+D:/cpp/task-killer-2/build/CMakeFiles/edit_cache.dir
+D:/cpp/task-killer-2/build/CMakeFiles/rebuild_cache.dir
