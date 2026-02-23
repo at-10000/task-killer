@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <map>
@@ -13,33 +14,61 @@ std :: multimap<std :: string, unsigned long> processMap;
 
 void killProcessesByName(std :: vector<std :: string> tasks);
 
-int main() {
-  clock_t main_start_time { clock() };
+std :: vector<std :: string> getTasksForKey(char key);
 
-  std :: vector<std :: string> tasksk;
-  tasksk.push_back(std :: string("a.exe"));
-  tasksk.push_back(std :: string("b.exe"));
-  tasksk.push_back(std :: string("c.exe"));
-  tasksk.push_back(std :: string("d.exe"));
-  tasksk.push_back(std :: string("e.exe"));
-  tasksk.push_back(std :: string("f.exe"));
-  tasksk.push_back(std :: string("g.exe"));
-  tasksk.push_back(std :: string("h.exe"));
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine, int nShowCmd) {
+  // AllocConsole();
+  // freopen("CONOUT$", "w", stdout); // what do these do?
 
-  killProcessesByName(tasksk);
+  // clock_t main_start_time { clock() };
+
+  std :: vector<std :: string> tasksk = getTasksForKey('k');
+  std :: vector<std :: string> tasksj = getTasksForKey('j');
+  std :: vector<std :: string> tasksl = getTasksForKey('l');
   
-  std :: cout << "Total program time: " << float (clock() - main_start_time) << "\n";
-  
-  // Sort array alphabetically
-  // std :: sort(tasksk.begin(), tasksk.end(), sortAlphabetically);
-  
-  return 0;
+  /*
+  for (const auto &elem: tasksk) {
+    std :: cout << elem << "\n";
+  }
+  */
+
+  RegisterHotKey(NULL, 1, MOD_CONTROL | MOD_ALT, 'K');
+  RegisterHotKey(NULL, 2, MOD_CONTROL | MOD_ALT, 'J');
+  RegisterHotKey(NULL, 3, MOD_CONTROL | MOD_ALT, 'L');
+  RegisterHotKey(NULL, 4, MOD_CONTROL | MOD_ALT, 'Q');
+
+  MSG msg;
+
+  while (GetMessage(&msg, NULL, 0, 0)) {
+    if (msg.message == WM_HOTKEY) {
+      switch (msg.wParam) {
+        case 1:
+          std :: cout << "ctrl alt k pressed\n";
+          killProcessesByName(tasksk);
+          break;
+        case 2:
+          killProcessesByName(tasksj);
+          break;
+        case 3:
+          killProcessesByName(tasksl);
+          break;
+        case 4:
+          return 0;
+          break;
+      }
+    }
+
+    /*
+    else {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);  // Handles any other messages (harmless if no windows)
+    }
+    */
+  }
 }
 
 
 void killProcessesByName(std :: vector<std :: string> tasks) {
-  clock_t begin_time { clock() };
-
   HANDLE processes_snapshot { CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) };
   PROCESSENTRY32 process {};
   process.dwSize = sizeof(PROCESSENTRY32);
@@ -58,14 +87,6 @@ void killProcessesByName(std :: vector<std :: string> tasks) {
     processes_remaining = Process32Next(processes_snapshot, &process);
   }
 
-  std :: cout << "Time for getting processes: " << float (clock() - begin_time) << "\n";
-
-  // for (const auto &elem: processMap) {
-  //   std :: cout << elem.first << " -> " << elem.second << "\n";
-  // }
-
-  begin_time = clock();
-
   for (const auto &task: tasks) {
     auto pids = processMap.equal_range(task);
     for (auto it = pids.first; it != pids.second; it ++) {
@@ -77,8 +98,27 @@ void killProcessesByName(std :: vector<std :: string> tasks) {
     }
   }
 
-  std :: cout << "Time for killing processes: " << float (clock() - begin_time) << "\n";
-  
   CloseHandle(processes_snapshot);
+}
+
+std :: vector<std :: string> getTasksForKey(char key) {
+  std :: string filename = "tasks";
+  filename += key;
+  filename += ".txt";
+  std :: ifstream f(filename);
+  std :: vector<std :: string> tasks;
+  std :: string task;
+
+  while (std :: getline(f, task)) {
+    if (task.empty()) {
+      continue;
+    }
+    if (task.back() == '\r') {
+      task.pop_back();
+    }
+    tasks.push_back(task);
+  }
+
+  return tasks;
 }
 

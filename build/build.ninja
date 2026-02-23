@@ -68,8 +68,8 @@ build CMakeFiles\task-killer.dir\src\main.cpp.obj: CXX_COMPILER__task-killer_uns
 build task-killer.exe: CXX_EXECUTABLE_LINKER__task-killer_Debug CMakeFiles\task-killer.dir\src\main.cpp.obj
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /O2 /MDd /Zi /Ob0 /Od /RTC1
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console /SUBSYSTEM:CONSOLE
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:windows /SUBSYSTEM:WINDOWS
+  LINK_LIBRARIES = user32.lib  gdi32.lib  kernel32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\task-killer.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D D:\cpp\task-killer-2\build && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/cpp/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/cpp/task-killer-2/build/task-killer.exe -installedDir D:/cpp/task-killer-2/build/vcpkg_installed/x64-windows/debug/bin -OutVariable out"
   PRE_LINK = cd .

@@ -7,10 +7,18 @@ project(task-killer)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2")
 
-add_executable(task-killer src/main.cpp)
+add_executable(task-killer WIN32 src/main.cpp)
+
+target_link_libraries(task-killer PRIVATE
+    user32
+    gdi32
+    kernel32
+)
 
 set_target_properties(task-killer PROPERTIES
-  LINK_FLAGS "/SUBSYSTEM:CONSOLE"
+  LINK_FLAGS "/SUBSYSTEM:WINDOWS"
 )
+
+
 
 
