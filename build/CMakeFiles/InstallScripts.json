@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"D:/cpp/task-killer-2/build/cmake_install.cmake"
+		"D:/dev/cpp/task-killer-2/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

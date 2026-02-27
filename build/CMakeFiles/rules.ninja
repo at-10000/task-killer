@@ -22,7 +22,7 @@ msvc_deps_prefix = Note: including file:
 
 rule CXX_COMPILER__task-killer_unscanned_Debug
   deps = msvc
-  command = ${LAUNCHER}${CODE_CHECK}D:\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\clang-cl.exe  /nologo -TP $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
+  command = ${LAUNCHER}${CODE_CHECK}D:\dev\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\clang-cl.exe  /nologo -TP $DEFINES $INCLUDES $FLAGS /showIncludes /Fo$out /Fd$TARGET_COMPILE_PDB -c -- $in
   description = Building CXX object $out
 
 
@@ -30,7 +30,7 @@ rule CXX_COMPILER__task-killer_unscanned_Debug
 # Rule for linking CXX executable.
 
 rule CXX_EXECUTABLE_LINKER__task-killer_Debug
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\mingw64\bin\cmake.exe -E vs_link_exe --msvc-ver=1944 --intdir=$OBJECT_DIR --rc=D:\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\llvm-rc.exe --mt=D:\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\llvm-mt.exe --manifests $MANIFESTS -- D:\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\lld-link.exe /nologo $in  /out:$TARGET_FILE /implib:$TARGET_IMPLIB /pdb:$TARGET_PDB /version:0.0 $LINK_FLAGS $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\mingw64\bin\cmake.exe -E vs_link_exe --msvc-ver=1944 --intdir=$OBJECT_DIR --rc=D:\dev\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\llvm-rc.exe --mt=D:\dev\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\llvm-mt.exe --manifests $MANIFESTS -- D:\dev\cpp\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc\bin\lld-link.exe /nologo $in  /out:$TARGET_FILE /implib:$TARGET_IMPLIB /pdb:$TARGET_PDB /version:0.0 $LINK_FLAGS $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
@@ -47,7 +47,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\mingw64\bin\cmake.exe --regenerate-during-build -SD:\cpp\task-killer-2 -BD:\cpp\task-killer-2\build
+  command = C:\mingw64\bin\cmake.exe --regenerate-during-build -SD:\dev\cpp\task-killer-2 -BD:\dev\cpp\task-killer-2\build
   description = Re-running CMake...
   generator = 1
 
@@ -56,7 +56,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = D:\cpp\ninja-win\ninja.exe $FILE_ARG -t clean $TARGETS
+  command = D:\dev\cpp\ninja-win\ninja.exe $FILE_ARG -t clean $TARGETS
   description = Cleaning all built files...
 
 
@@ -64,6 +64,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = D:\cpp\ninja-win\ninja.exe -t targets
+  command = D:\dev\cpp\ninja-win\ninja.exe -t targets
   description = All primary targets available:
 

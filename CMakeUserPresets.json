@@ -7,7 +7,7 @@
       "environment": {
         "CMAKE_C_COMPILER": "clang-cl",
         "CMAKE_CXX_COMPILER": "clang-cl",
-        "VCPKG_ROOT": "D:/cpp/vcpkg"
+        "VCPKG_ROOT": "D:/dev/cpp/vcpkg"
       }
     }
   ]

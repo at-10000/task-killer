@@ -1,4 +1,4 @@
-set(CMAKE_RC_COMPILER "D:/cpp/clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc/clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc/bin/llvm-rc.exe")
+set(CMAKE_RC_COMPILER "D:/dev/cpp/clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc/clang+llvm-22.1.0-rc3-x86_64-pc-windows-msvc/bin/llvm-rc.exe")
 set(CMAKE_RC_COMPILER_ARG1 "")
 set(CMAKE_RC_COMPILER_LOADED 1)
 set(CMAKE_RC_SOURCE_FILE_EXTENSIONS rc;RC)

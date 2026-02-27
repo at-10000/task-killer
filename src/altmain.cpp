@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
-
 #include <vector>
-#include <stack>
 #include <string>
 #include <map>
 
@@ -12,53 +10,27 @@
 #include <tlhelp32.h>
 #include <tchar.h>
 
-
 std :: multimap<std :: string, unsigned long> processMap;
-
-std :: multimap<unsigned long, unsigned long> parentidtoid;
 
 void killProcessesByName(std :: vector<std :: string> tasks);
 
-void killProcessesByID(std :: vector<unsigned long> tasks);
-
 std :: vector<std :: string> getTasksForKey(char key);
 
-std :: vector<unsigned long> findChildren(unsigned long pid);
-
-
-// int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine, int nShowCmd) {
-int main() {
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine, int nShowCmd) {
   // AllocConsole();
   // freopen("CONOUT$", "w", stdout); // what do these do?
 
   // clock_t main_start_time { clock() };
 
   std :: vector<std :: string> tasksk = getTasksForKey('k');
-  // std :: vector<std :: string> tasksj = getTasksForKey('j');
-  // std :: vector<std :: string> tasksl = getTasksForKey('l');
+  std :: vector<std :: string> tasksj = getTasksForKey('j');
+  std :: vector<std :: string> tasksl = getTasksForKey('l');
   
   /*
   for (const auto &elem: tasksk) {
     std :: cout << elem << "\n";
   }
   */
-
-  // killProcessesByName(tasksk);
-  
-  int pid {};
-  std :: cout << "PID to get children of: ";
-  std :: cin >> pid;
-
-  killProcessesByName(tasksk);
-  std :: vector<unsigned long> childrenpids { findChildren(pid) };
-
-  for (const auto& id: childrenpids) {
-    std :: cout << id << " ";
-  }
-
-  return 0;
-
-  /*
 
   RegisterHotKey(NULL, 1, MOD_CONTROL | MOD_ALT, 'K');
   RegisterHotKey(NULL, 2, MOD_CONTROL | MOD_ALT, 'J');
@@ -71,7 +43,7 @@ int main() {
     if (msg.message == WM_HOTKEY) {
       switch (msg.wParam) {
         case 1:
-          std :: cout << "ctrl alt k pressed\n";
+          // std :: cout << "ctrl alt k pressed\n";
           killProcessesByName(tasksk);
           break;
         case 2:
@@ -86,12 +58,13 @@ int main() {
       }
     }
 
+    /*
     else {
         TranslateMessage(&msg);
         DispatchMessage(&msg);  // Handles any other messages (harmless if no windows)
-    } // REMOVE THIS ELSE AFTER UNCOMMENTING MAYBE? MIGHT BE USEFUL THOUGH, FIND OUT WHAT IT DOES
+    }
+    */
   }
-  */
 }
 
 
@@ -107,26 +80,13 @@ void killProcessesByName(std :: vector<std :: string> tasks) {
   }
 
   processMap.clear();
-
-  parentidtoid.clear();
   
   while (processes_remaining) {
     processMap.insert({process.szExeFile, process.th32ProcessID});
 
-    parentidtoid.insert({process.th32ParentProcessID, process.th32ProcessID});
-
     processes_remaining = Process32Next(processes_snapshot, &process);
   }
 
-  /*
-  for (const auto &elem: parentidtoid) {
-    std :: cout << elem.first << " " << elem.second << "\n";
-  }
-  */
-
-  // while (1) {}
-
-  /*
   for (const auto &task: tasks) {
     auto pids = processMap.equal_range(task);
     for (auto it = pids.first; it != pids.second; it ++) {
@@ -137,13 +97,12 @@ void killProcessesByName(std :: vector<std :: string> tasks) {
       }
     }
   }
-  */
 
   CloseHandle(processes_snapshot);
 }
 
 std :: vector<std :: string> getTasksForKey(char key) {
-  std :: string filename = "tasks";
+  std :: string filename = "D:/dev/cpp/tasks/tasks";
   filename += key;
   filename += ".txt";
   std :: ifstream f(filename);
@@ -162,27 +121,4 @@ std :: vector<std :: string> getTasksForKey(char key) {
 
   return tasks;
 }
-
-std :: vector<unsigned long> findChildren(unsigned long pid) {
-  std :: vector<unsigned long> pidlist;
-  std :: vector<unsigned long> temp;
-  auto childrenids = parentidtoid.equal_range(pid);
-  for (auto it = childrenids.first; it != childrenids.second; it ++) {
-    // std :: cout << it -> first << " " << it -> second << "\n";
-    pidlist.push_back(it -> second);
-    temp = findChildren(it -> second);
-    pidlist.insert(pidlist.end(), temp.begin(), temp.end());
-  }
-
-  /*
-  for (const auto& pid: pidlist) {
-    std :: cout << pid << " ";
-  }
-  
-  std :: cout << "\n";
-  */
-
-  return pidlist;
-}
-
 

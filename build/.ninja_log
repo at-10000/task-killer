@@ -1,8 +1,16 @@
 # ninja log v7
-4	1857	7935803147379249	CMakeFiles/task-killer.dir/src/main.cpp.obj	8c3253a58ac05ed5
-82	2248	7935803344309914	build.ninja	9a75f1b3a10308fb
-82	2248	7935803344278505	D:/cpp/task-killer-2/build/cmake_install.cmake	9a75f1b3a10308fb
-1858	3354	7935803165924222	task-killer.exe	316d50d42642631f
-5	816	7935803344309914	build.ninja	9a75f1b3a10308fb
-5	816	7935803344309914	D:/cpp/task-killer-2/build/cmake_install.cmake	9a75f1b3a10308fb
-6	1348	7935803344620044	task-killer.exe	485b9f9bbeb0c581
+4	714	7939261581406515	build.ninja	b20afb76f2d79ef0
+4	714	7939261581366542	D:/dev/cpp/task-killer-2/build/cmake_install.cmake	b20afb76f2d79ef0
+114	3168	7939261208897176	CMakeFiles/task-killer.dir/src/main.cpp.obj	e0bacee9a573a71c
+7101	30276	7939260402626946	task-killer.exe	6027e43e82bc4697
+44	1993	7939261581406515	build.ninja	b20afb76f2d79ef0
+44	1993	7939261581406515	D:/dev/cpp/task-killer-2/build/cmake_install.cmake	b20afb76f2d79ef0
+114	1906	7939261583277862	task-killer.exe	63c74883bc7e8034
+17	2559	7939263642009603	CMakeFiles/task-killer.dir/src/main.cpp.obj	e0bacee9a573a71c
+2560	4063	7939263667476658	task-killer.exe	63c74883bc7e8034
+43	2958	7939265235988390	CMakeFiles/task-killer.dir/src/main.cpp.obj	e0bacee9a573a71c
+2973	5160	7939265265284508	task-killer.exe	63c74883bc7e8034
+5	2550	7939267073730396	CMakeFiles/task-killer.dir/src/main.cpp.obj	e0bacee9a573a71c
+2551	4518	7939267099197491	task-killer.exe	63c74883bc7e8034
+6	2634	7939268767948085	CMakeFiles/task-killer.dir/src/main.cpp.obj	e0bacee9a573a71c
+2635	4080	7939268794196294	task-killer.exe	63c74883bc7e8034
