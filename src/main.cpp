@@ -36,17 +36,16 @@ int main() {
   // clock_t main_start_time { clock() };
 
   std :: vector<std :: string> tasksk = getTasksForKey('k');
-  // std :: vector<std :: string> tasksj = getTasksForKey('j');
-  // std :: vector<std :: string> tasksl = getTasksForKey('l');
+  std :: vector<std :: string> tasksj = getTasksForKey('j');
+  std :: vector<std :: string> tasksl = getTasksForKey('l');
   
-  /*
   for (const auto &elem: tasksk) {
     std :: cout << elem << "\n";
   }
-  */
 
   // killProcessesByName(tasksk);
   
+  /*
   int pid {};
   std :: cout << "PID to get children of: ";
   std :: cin >> pid;
@@ -68,12 +67,12 @@ int main() {
 
   return 0;
 
-  /*
+  */
 
-  RegisterHotKey(NULL, 1, MOD_CONTROL | MOD_ALT, 'K');
-  RegisterHotKey(NULL, 2, MOD_CONTROL | MOD_ALT, 'J');
-  RegisterHotKey(NULL, 3, MOD_CONTROL | MOD_ALT, 'L');
-  RegisterHotKey(NULL, 4, MOD_CONTROL | MOD_ALT, 'Q');
+  RegisterHotKey(NULL, 1, MOD_CONTROL | MOD_ALT, 'U');
+  RegisterHotKey(NULL, 2, MOD_CONTROL | MOD_ALT, 'I');
+  RegisterHotKey(NULL, 3, MOD_CONTROL | MOD_ALT, 'O');
+  RegisterHotKey(NULL, 4, MOD_CONTROL | MOD_ALT, 'R');
 
   MSG msg;
 
@@ -82,12 +81,15 @@ int main() {
       switch (msg.wParam) {
         case 1:
           std :: cout << "ctrl alt k pressed\n";
+          refreshProcesses();
           killProcessesByName(tasksk);
           break;
         case 2:
+          refreshProcesses();
           killProcessesByName(tasksj);
           break;
         case 3:
+          refreshProcesses();
           killProcessesByName(tasksl);
           break;
         case 4:
@@ -101,7 +103,6 @@ int main() {
         DispatchMessage(&msg);  // Handles any other messages (harmless if no windows)
     } // REMOVE THIS ELSE AFTER UNCOMMENTING MAYBE? MIGHT BE USEFUL THOUGH, FIND OUT WHAT IT DOES
   }
-  */
 }
 
 void refreshProcesses() {
@@ -131,14 +132,12 @@ void refreshProcesses() {
 }
 
 void killProcessesByName(std :: vector<std :: string> tasks) {
+  // std :: vector<unsigned long> child_processes;
   for (const auto &task: tasks) {
     auto pids = processMap.equal_range(task);
     for (auto it = pids.first; it != pids.second; it ++) {
-      const auto process_handle = OpenProcess(PROCESS_TERMINATE, false, it -> second);
-      if (process_handle) {
-        TerminateProcess(process_handle, 1);
-      }
-      CloseHandle(process_handle);
+      // child_processes = findChildren(it -> second); // MAYBE YOU CAN DO MOVES WHENEVER YOU MOVE A VECTOR TO SAVE TIME?
+      killProcessesByID(findChildren(it -> second));
     }
   }
 }
@@ -154,7 +153,7 @@ void killProcessesByID(std :: vector<unsigned long> tasks) {
 }
 
 std :: vector<std :: string> getTasksForKey(char key) {
-  std :: string filename = "tasks";
+  std :: string filename = "D:/cpp/tasks/tasks";
   filename += key;
   filename += ".txt";
   std :: ifstream f(filename);
@@ -187,6 +186,7 @@ std :: vector<unsigned long> findChildren(unsigned long pid) {
 
   return pidlist;
 }
+
 
 
 
