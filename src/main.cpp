@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 #include <vector>
 #include <stack>
@@ -17,6 +18,8 @@ std :: multimap<std :: string, unsigned long> processMap;
 
 std :: multimap<unsigned long, unsigned long> parentidtoid;
 
+void refreshProcesses(void);
+
 void killProcessesByName(std :: vector<std :: string> tasks);
 
 void killProcessesByID(std :: vector<unsigned long> tasks);
@@ -24,7 +27,6 @@ void killProcessesByID(std :: vector<unsigned long> tasks);
 std :: vector<std :: string> getTasksForKey(char key);
 
 std :: vector<unsigned long> findChildren(unsigned long pid);
-
 
 // int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR lpCmdLine, int nShowCmd) {
 int main() {
@@ -49,12 +51,20 @@ int main() {
   std :: cout << "PID to get children of: ";
   std :: cin >> pid;
 
-  killProcessesByName(tasksk);
+  refreshProcesses();
+
   std :: vector<unsigned long> childrenpids { findChildren(pid) };
 
   for (const auto& id: childrenpids) {
     std :: cout << id << " ";
   }
+
+  std :: reverse(std :: begin(childrenpids), std :: end(childrenpids));
+
+  killProcessesByID(childrenpids);
+
+  // std :: vector<std :: string> taskstokill = {"Taskmgr.exe"};
+  // killProcessesByName(taskstokill);
 
   return 0;
 
@@ -94,8 +104,7 @@ int main() {
   */
 }
 
-
-void killProcessesByName(std :: vector<std :: string> tasks) {
+void refreshProcesses() {
   HANDLE processes_snapshot { CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) };
   PROCESSENTRY32 process {};
   process.dwSize = sizeof(PROCESSENTRY32);
@@ -118,28 +127,30 @@ void killProcessesByName(std :: vector<std :: string> tasks) {
     processes_remaining = Process32Next(processes_snapshot, &process);
   }
 
-  /*
-  for (const auto &elem: parentidtoid) {
-    std :: cout << elem.first << " " << elem.second << "\n";
-  }
-  */
+  CloseHandle(processes_snapshot);
+}
 
-  // while (1) {}
-
-  /*
+void killProcessesByName(std :: vector<std :: string> tasks) {
   for (const auto &task: tasks) {
     auto pids = processMap.equal_range(task);
     for (auto it = pids.first; it != pids.second; it ++) {
-      const auto kprocess = OpenProcess(PROCESS_TERMINATE, false, it -> second);
-      if (kprocess) {
-        TerminateProcess(kprocess, 1);
-        CloseHandle(kprocess);
+      const auto process_handle = OpenProcess(PROCESS_TERMINATE, false, it -> second);
+      if (process_handle) {
+        TerminateProcess(process_handle, 1);
       }
+      CloseHandle(process_handle);
     }
   }
-  */
+}
 
-  CloseHandle(processes_snapshot);
+void killProcessesByID(std :: vector<unsigned long> tasks) {
+  for (const auto& task: tasks) {
+    const auto process_handle = OpenProcess(PROCESS_TERMINATE, false, task);
+    if (process_handle) {
+      TerminateProcess(process_handle, 1);
+    }
+    CloseHandle(process_handle);
+  }
 }
 
 std :: vector<std :: string> getTasksForKey(char key) {
@@ -165,24 +176,17 @@ std :: vector<std :: string> getTasksForKey(char key) {
 
 std :: vector<unsigned long> findChildren(unsigned long pid) {
   std :: vector<unsigned long> pidlist;
+  pidlist.push_back(pid);
   std :: vector<unsigned long> temp;
   auto childrenids = parentidtoid.equal_range(pid);
   for (auto it = childrenids.first; it != childrenids.second; it ++) {
-    // std :: cout << it -> first << " " << it -> second << "\n";
-    pidlist.push_back(it -> second);
+    // pidlist.push_back(it -> second);
     temp = findChildren(it -> second);
     pidlist.insert(pidlist.end(), temp.begin(), temp.end());
   }
 
-  /*
-  for (const auto& pid: pidlist) {
-    std :: cout << pid << " ";
-  }
-  
-  std :: cout << "\n";
-  */
-
   return pidlist;
 }
+
 
 
